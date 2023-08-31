@@ -1,22 +1,35 @@
 var second = 0;
 
+const sounds = {
+  2: document.getElementById('audio-two'),
+  3: document.getElementById('audio-three'),
+  4: document.getElementById('audio-four'),
+  "inhale": document.getElementById('audio-inhale'),
+  "exhale": document.getElementById('audio-exhale'),
+  "hold": document.getElementById('audio-hold')
+};
+
+const phases = {
+  0: "inhale",
+  1: "hold",
+  2: "exhale",
+  3: "hold"
+};
+
 function showTime(){
     var cue;
     
     let phase = Math.floor(second/4);
-    let phaseOffset = second - 4*phase;
+    let offset = second - 4*phase;
+    let phaseName = phases[phase];
   
-    switch(Math.floor(second/4)) {
-        case 0: cue = "INHALE";
-            break;
-        case 1: cue = "HOLD";
-            break;
-        case 2: cue = "EXHALE";
-            break;
-        case 3: cue = "HOLD";
-            break;
+    cue = `${phaseName} ${offset + 1}/4`;
+  
+    if(offset == 0) {
+      sounds[phaseName].play();
+    } else {
+      sounds[offset + 1].play();
     }
-    cue += " " + (phaseOffset + 1) + "/4";
     
     second = (second + 1) % 16;
     
